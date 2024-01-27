@@ -1,0 +1,161 @@
+{% extends "students/base.html" %}
+
+{% block body %}
+
+ <div class="container-fluid">
+   <div class="row">
+    <div class="row align-items-center" style="height: 60px; box-shadow:  2px -2px 3px white">
+      <div class="flex-2 col-8 col  me-4">
+        <form action="" class="form">
+          <div class="d-flex">
+            <input type="text" id="search" name="search" placeholder="Search" class="form-control m-2">
+            <select name="" class="form-select" id="course-query">
+                <option disabled >Select faculty</option>
+                <option class="form-option" value="All">All faculties</option>
+               
+                {% for prog in facultys %}
+                <option class="form-option" value={{prog.prog_code}}>{{ prog.prog_name }}</option>
+                {% endfor %}
+            </select>
+          
+        </div>
+        </form>
+      </div>
+      <div class="rounded btn btn-success border col-2 md-col-3 ms-4 com-sm-4" data-bs-toggle="modal" data-bs-target="#modaladd"> 
+        <i class="fa fa-add"></i>
+       Add faculty</div>
+      </div>
+
+      {% if success %}
+        
+         <script>
+
+         
+
+displayAlert($("#alerter"),"{{ message }}",false)
+function displayAlert(item,text,is_error){
+    if(is_error){
+        item.addClass("alert-danger")
+        if (text==""){
+          text=$(".errolist li").html()
+        }
+        item.html(text)
+        item.removeClass("hide")
+
+    }
+    else{
+      item.addClass("alert-success")
+      if (text==""){
+          item.addClass("alert-danger")
+          var error=document.getElementsByClassName("errorlist")[0].html()
+          console.log(error)
+        }
+        
+        item.html(text+" Failed")
+        item.removeClass("hide")
+
+    }
+    var interval=setTimeout(()=>{
+        item.html("")
+        item.removeClass("alert-danger")
+        item.removeClass("alert-success")
+        item.addClass("hide")
+
+
+    },3000)
+}
+         </script>
+     {% endif %}
+<!-- Modal -->
+<div class="modal hide" aria-hidden="true" tabindex="-1" role="dialog" id="modaladd" aria-labelledby="modaladd">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-75 text-center">Add Faculty</h5>
+        <button class="btn-close" role="close" type="button" data-bs-dismiss="modal">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+         <form action="{%url 'view_faculty' %}" method="post" id="save_faculty">
+          {% csrf_token %}
+          {{ form.as_p }}
+        <div class="modal-footer">
+          <button class="btn btn-success" type="submit">Add</button>
+        <button class="btn btn-danger">Cancel</button>
+        </div>
+        
+      </form>
+      </div>
+    </div>
+   </div>
+</div>
+  
+      
+      
+  </div>
+    <div class="card m-2">
+       
+        <div class="card-body">
+          {% if faculties %}
+
+          <table class="table table-responsive">
+
+            <thead>
+              <th>Faculty code </th>
+              <th>Faculty Name</th>
+              <th>Actions</th>
+              <th>programs</th>
+            </thead>
+
+            <tbody>
+              {% for  faculty in faculties%}
+
+              <tr>
+                <td>{{ faculty.fac_code}}</td>
+                <td>{{ faculty.fac_name}}</td>
+                <td class="">
+                  <a href="" class="btn btn-info ms-3">
+                    <i class="fa fa-eye fa-lg"></i>
+                  </a>
+                  <a href="" class="btn btn-warning ms-3">
+                    <i class="fa fa-pencil fa-lg"></i>
+                  </a>
+                  <a href="" class="btn btn-danger ms-3">
+                    <i class="fa fa-trash fa-lg"></i>
+                  </a>
+                 
+                </td>
+                  <td><a href="{% url 'view_courses' faculty.pk %}" class="nav-link text-dark btn btn-info  p-1 m-1">Programs</a></td>
+                
+              </tr>
+              
+   
+
+              {% endfor %}
+            </tbody>
+            
+
+          </table>
+
+          {% else %}
+
+          <div class="alert alert-success" role="alert">
+              <p class="alert-text">No Faculities available</p>
+
+          </div>
+
+          {% endif %}
+        </div>
+    </div>
+   </div>
+
+ </div>
+
+
+ 
+
+</div>
+
+{% endblock %}

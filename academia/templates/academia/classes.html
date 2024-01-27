@@ -1,0 +1,164 @@
+{% extends 'students/base.html'%}
+
+
+{% block body%}
+
+<div class="container-fluid">
+
+    <div class="bg-light w-100 rounded mb-3 d-flex  justify-content-around align-items-center" style="height: 60px; box-shadow:  2px -2px 3px white">
+      <a href="" class="btn btn-info nav-link text-center text-dark"><i class="me-2 fa fa-list"></i>All Subjects</a> 
+      <div class="btn btn-success border width-100"  type="button"  data-bs-toggle="modal" data-bs-target="#addsubject">
+        <i class="fa fa-add"></i>
+       Add Subject</div>
+    </div>
+    {% if success %}
+    <div class="alert alert-success">Subject added successfully</div>
+
+    {% endif %}
+    <div class="card">
+        <div class="card-header"> </div>
+
+    <div class="card-body">
+        <div class="card-text">
+            <div class="search col-8 col-md-flex-column">
+                <p>Filter</p>
+                <div class="d-flex">
+                    <input type="text" id="search" name="search" placeholder="Search" class="form-control m-2">
+                    <select name="" class="ms-2 form-select" id="prog-query">
+                        <option disabled >Select Courses</option>
+                        <option class="form-option" value="All">All Programs</option>
+                       
+                        {% for prog in programs %}
+                        <option class="form-option" value={{prog.prog_code}}>{{ prog.prog_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="" class="ms-2 form-select" id="course-query">
+                        <option disabled >Select Courses</option>
+                        <option class="form-option" value="All">All Courses</option>
+                       
+                        {% for prog in programs %}
+                        <option class="form-option" value={{prog.prog_code}}>{{ prog.prog_name }}</option>
+                        {% endfor %}
+                    </select>
+              
+                </div>
+            </div>
+            {% if subjects %}
+            <table class="table table-responsive striped border">
+
+            <thead>
+                <th>Subject No</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Course</th>
+                <th>Actions</th>
+            </thead>
+
+            <tbody id="student-data">
+            {% for subject in subjects %}
+            <tr class="align-items-center">
+              <td>{{ subject.pk}}</td>
+                <td>{{ subject.subject}}</td>
+                <td>{{ subject.description}}</td>
+                <td>{{subject.course}}</td>
+                <td class="">
+                  <button class="btn text-success p-0"  type="button"  data-bs-toggle="modal" data-bs-target="#student{{ student.phone_number }}">
+                    <i class="fa fa-eye fa-sm" aria-hidden="true"></i>
+                  </button> 
+                      
+                    <div class="modal" id="student{{ student.phone_number}}" tabindex="-1" aria-labelledby="mymodallabel1" aria-hidden="false">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <p class="modal-title align-items-center">
+                                   {{subject.subject}}</p>
+                                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="close">
+                                      <span aria-hidden="true"></span>
+                                  </button>
+                              </div>
+                       
+                          </div>
+
+                      </div>
+
+                  </div>
+
+                  <button class="btn btn-light text-success p-0 mx-2"> <a href="" class=""><i class="fa fa-sm fa-pencil"></i></a>  </button>
+          
+                   <button class="btn text-danger  p-0 mx-2" data-bs-target="#delstudent{{student.phone_number}}" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button>
+              
+                   <div class="modal" role="modal" id="delstudent{{student.phone_number}}">
+                     <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <p class="modal-title">A you sure you want to delete Student </p>
+                          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="modal-text">
+                            <p>{{subject.subject}}</p>
+                          </div>
+                        </div>
+
+                        <div class="modal-footer">
+                          <button  class="btn btn-danger"> <a href="{% url 'delete_student' subject.pk %} " class="nav-link text-white">DELETE</a></button>
+                          <button class="btn btn-warning" data-bs-dismiss="modal">CANCEL</button>
+                        </div> 
+                      </div>
+                     </div>
+                   </div>
+
+                </td>
+
+
+            </tr>
+
+
+
+            {%endfor %}
+        </tbody>
+        </table>
+
+            {% else %} 
+            <div class="alert mt-2 alert-info">
+                No Subjects Available
+            </div>
+            {% endif %}
+
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addsubject" tabindex="-1" aria-labelledby="mymodallabel1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title align-items-center">
+                    Add new Subject</p>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post"> 
+                        {{ form.as_p}}
+                    </form>
+                    <div class="w-100 shadow p-2 rounded d-flex justify-content-around align-items-center">
+                        <button class="btn btn-success" type="submit">Add New</button>
+                        <button class="btn btn-danger" type="button" data-bs-dismiss="modal" >Cancel</button>
+                   
+                    </div>
+                 </div>
+                 
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

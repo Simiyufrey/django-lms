@@ -1,0 +1,187 @@
+{% extends "students/base.html" %}
+
+
+
+{% block body%}
+{% load static %}
+<div class="container-fluid mt-2">
+    <div class="bg-light w-100 rounded mb-3 d-flex justify-content-around align-items-center" style="height: 60px; box-shadow:  2px -2px 3px white">
+       
+      <div class="btn btn-info"><a href="{% url 'view_students' %}" class="nav-link text-center text-dark"><i class="me-2 fa fa-list"></i>All Students</a>
+        </div>
+        <div class="search col-8 col-md-flex-column">
+          <div class="d-flex">
+              <input type="text" id="search" name="search" placeholder="Search" class="form-control m-2">
+              <select name="" class="form-select" id="course-query">
+                  <option disabled >Select Program</option>
+                  <option class="form-option" value="All">All Students</option>
+                 
+                  {% for prog in programs %}
+                  <option class="form-option" value={{prog.prog_code}}>{{ prog.prog_name }}</option>
+                  {% endfor %}
+              </select>
+        
+          </div>
+      </div>
+        <div class="rounded btn btn-success border width-100"><a href="{% url 'add_student' %}" class="nav-link text-center text-dark">
+             <i class="fa fa-add"></i>
+            Add Student</a></div>
+        
+    </div>
+    <div class="row p-2">
+        <div class="col-9 col-lg-12 col-md-12">
+
+          <div class="card m-1">
+       
+            <div class="card-body d-flex">
+                        
+                        {% if students %}
+                        <table class="table table-responsive">
+
+                        <thead>
+                            <th>Student No</th>
+                            <th>Surname</th>
+                            <th>Othernames</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Program</th>
+                            <th>Actions</th>
+                        </thead>
+
+                        <tbody class="shadow shadow-sm rounded" id="student-data">
+                        {% for student in students %}
+                        <tr class="align-items-center">
+                          <td>{{ student.student_no}}</td>
+                            <td>{{ student.surname}}</td>
+                            <td>{{ student.othernames}}</td>
+                            <td>{{ student.gender}}</td>
+                            <td>{{ student.email}}</td>
+                            <td>{{student.phone_number}}</td>
+                            <td>{{student.prog_code}}</td>
+                            <td class="">
+                              <button class="btn text-success p-0"  type="button"  data-bs-toggle="modal" data-bs-target="#student{{ student.phone_number }}">
+                                <a href="{% url 'view_student' student.pk%}"><i class="fa fa-eye fa-sm" aria-hidden="true">view</i></a>
+                              </button> 
+                               <div class="modal" id="student{{ student.phone_number}}" tabindex="-1" aria-labelledby="mymodallabel1" aria-hidden="false">
+                                  <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                              <p class="modal-title align-items-center">
+                                              Record for {{student.surname}}</p>
+                                              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="close">
+                                                  <span aria-hidden="true"></span>
+                                              </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="card">
+                                              <div class="card-content">
+                                                <div class="card-body">
+                                                  <div class="card-text border rounded d-flex flex-column justify-content-center">
+                                                    <div class="text-center p-3">
+
+                                                    
+                                                    <img src="{{student.image.url }}" class="profile_image border" alt="" srcset="">
+                                                  </div>
+
+                                                    <table class="table table-responsive">
+
+                                                      <tbody>
+                                                        <tr class="mt-2">
+                                                          <th class="me-2">Student No</th>
+                                                          <td>{{student.student_no}}</td>
+                                                        </tr>
+                                                        <tr class="mt-2">
+                                                          <th class="me-2">Full Names </th>
+                                                          <td>{{student.surname}} {{student.othernames}}</td>
+                                                        </tr>
+                                                        <tr class="mt-2">
+                                                          <th class="me-2">Email </th>
+                                                          <td>{{student.email}}</td>
+                                                        </tr>
+          
+                                                        <tr class="mt-2">
+                                                          <th class="me-2">Course </th>
+                                                          <td>{{student.prog_code}}</td>
+                                                        </tr>
+                                                        <tr class="mt-2">
+                                                          <th class="me-2">Mobile </th>
+                                                          <td>{{student.phone_number}}</td>
+                                                        </tr>
+                                                        <tr class="mt-2">
+                                                          <th class="me-2">Photo url </th>
+                                                          <td><a href="{{student.image.url}}" class="nav-link" target="_blank">{{student.image.url}}</a></td>
+                                                        </tr>
+                                                      </tbody>
+                                                    </table>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                            </div>
+                                           
+
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                              </div>
+
+                              <button class="btn btn-light text-success p-0 mx-2"> <a href="{% url 'edit_student' student.pk %}" class=""><i class="fa fa-sm fa-pencil">edit</i></a>  </button>
+                      
+                               <button class="btn text-danger  p-0 mx-2" data-bs-target="#delstudent{{student.phone_number}}" data-bs-toggle="modal"> <i class="fa fa-trash"></i></button>
+                          
+                               <div class="modal" role="modal" id="delstudent{{student.phone_number}}">
+                                 <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <p class="modal-title">A you sure you want to delete Student </p>
+                                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="modal-text">
+                                        <p>{{student.surname}} {{student.othernames}}</p>
+                                      </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                      <button  class="btn btn-danger"> <a href="{% url 'delete_student' student.pk %} " class="nav-link text-white">DELETE</a></button>
+                                      <button class="btn btn-warning" data-bs-dismiss="modal">CANCEL</button>
+                                    </div> 
+                                  </div>
+                                 </div>
+                               </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+
+                        {%endfor %}
+                    </tbody>
+                    </table>
+                        {% else %} 
+                        <div class="alert alert-info">
+                            No Students Available
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+         
+            </div>
+            </div>
+            
+
+           
+
+        </div>
+    </div>
+</div>
+{% endblock %}

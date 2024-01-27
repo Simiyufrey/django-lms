@@ -1,0 +1,150 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    <script src="{% static 'jquery.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Francois+One&family=Roboto+Condensed&family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
+
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<div class="container-fluid m-0 p-0 wrapper">
+
+    <div class="sidebar m-0 p-0">
+        <div class="close">
+            <ion-icon name="close-outline" class="menu"></ion-icon>
+        </div>
+        <ul class="menu1">
+            <li class="menu-item">
+                <a href="{% url 'index' %}" class="nav-link">
+                    <div class="icon"> <i class="fa fa-list-alt" aria-hidden="true"></i></div>  <span>Dashboard</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="{% url 'view_faculty' %}" class="nav-link">
+                  <div class="icon"> <i class="fa fa-users" aria-hidden="true"></i></div>  <span>Faculties</span></a>
+            
+                </li>
+            <li class="menu-item">
+                <a href="{% url 'view_students' %}" class="nav-link">
+                  <div class="icon"> <i class="fa fa-users" aria-hidden="true"></i></div>  <span>Students</span></a>
+            
+                </li>
+            <li class="menu-item">
+                <a href="{% url 'staffs' %}" class="nav-link">
+                    <div class="icon"><i class="fa fa-address-card" aria-hidden="true"></i></div>  <span>Staffs</span></a>
+              
+            </li>
+            <li class="menu-item">
+                <a href="{% url 'programs' %}" class="nav-link">
+                    <div class="icon"><ion-icon name="code-outline"></ion-icon> </i></div>  
+                    <span>Programs</span></a>  
+            </li>
+           
+            <li class="menu-item">
+                <a href="{% url 'index' %}" class="nav-link">
+                    <div class="icon"><i class="fa fa-stream" aria-hidden="true"></i></div>  
+                    <span>Classes</span></a>  
+            </li>
+           
+
+            
+
+            <li class="menu-item">
+                <a href="{% url 'index' %}" class="nav-link">
+                    <div class="icon"><i class="fa fa-book" aria-hidden="true"></i> <i class="fa fa-pencil" aria-hidden="true"></i></div>  
+                    <span>Exams</span></a>
+              
+                 
+            </li>
+
+            <li class="menu-item">
+                <a href="{% url 'index' %}" class="nav-link">
+                    <div class="icon"> <i class="fa fa-bell fa-large" aria-hidden="true"></i></div> 
+                     <span>Communication</span></a>
+              
+            </li>
+
+            <li class="menu-item">
+                <a href="{% url 'index' %}" class="nav-link">
+                    <div class="icon"> 
+                        <ion-icon name="library-outline"></ion-icon></div> 
+                     <span>Research</span></a>
+                
+            </li>
+        </ul>
+
+
+    </div>
+    <div class="mainbar mt-2">
+        <div class="d-flex justify-content-center">
+        <div id="alerter" class="alert position-absolute  p-2 text-center col-12 col-md-8 col-lg-5" style="transition: all 1s ease;"></div>
+    </div>
+    <nav class="navbar navbar-expand-lg  w-100 navbar-dark rounded border-dark" style="background-color: var(--bg);">
+        <div class="container-fluid">
+         
+     <a href="#" class="navbar-brand">Student Management System</a>
+ 
+     <div>
+         <button class="btn btn-success"><a href="{% url 'payments' %}" class="nav-link text-light">Donate</a></button>
+     </div>
+      
+        
+         <ul class="settings">
+             <li class="text-light"><i class="fa fa-user"></i>
+                 Godfrey
+             <ul>
+                 <li><a href="" class="">Profile</a></li>
+                 <li><a href="">change password</a></li>
+                 <li><a href="">Logout</a></li>
+             </ul>
+         </li>
+         </ul>
+       </div>
+ 
+  </nav>
+        {% block body %}
+
+        {% endblock %}
+    </div>
+    
+ 
+</div>
+
+ <footer class="mt-auto mb-4">
+    <div class="text-center">
+     <span>
+        &copy; <script>document.write(new Date().getFullYear())</script> all rights reserved Waynes enterprises</span>
+    </div>
+ </footer>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+       
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="{% static 'script.js' %}"></script>
+<script src="{% static 'chart.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+
+
+var togg_btn=$('#toggler');
+
+togg_btn.on("click",()=>{
+    $(".sidebar").toggleClass("active")
+})
+        </script>
+</body>
+</html>

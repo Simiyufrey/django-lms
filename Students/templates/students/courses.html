@@ -1,0 +1,108 @@
+{% extends 'students/base.html'%}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-text">
+                <div class="d-flex">
+                    <input type="text" id="search" name="search" placeholder="Search" class="form-control m-2">
+                    <select name="" class="form-select" id="course-query">
+                        <option disabled >Select Year</option>
+                        <option class="form-option" value="All">All Years</option>
+                       
+                        {% for year in years %}
+                        <option class="form-option" value={{year.pk}}>{{ year.Academic_year }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="" class="form-select ms-4" id="course-query">
+                        <option disabled >Select Semester</option>
+                        <option class="form-option" value="All">All Semesters</option>
+                       
+                        {% for sem in sems %}
+                        <option class="form-option" value={{sem.pk}}>{{ sem.sem }}</option>
+                        {% endfor %}
+                    </select>
+                  
+                </div>
+        </div>
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-around">
+                    <h3 class="card-title">Courses</h3>
+                    <button class="btn-info btn" role="button" data-bs-toggle="modal" data-bs-target="#addcourse">Add Course</button>
+                    <div class="modal" role="dialog" tabindex="-1" id="addcourse">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="text-center">Add new Course</h3>
+                                    <button class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true"></span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" class="border rounded p-4" method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <input type="text" hidden class="form-control" name="prog_code" value="{{pro}}">
+                                        <button type="submit" class="btn btn-success m-4">Add</button>
+                                    </form>
+                                </div>
+                            </div> 
+                            
+                        </div>
+                    </div>
+                </div>
+                    {% if courses %} 
+                    <i class="fa fa-eye-slash fa-tbl  p-2 rounded m-2 ms-auto" id="toggle-table" style="cursor: pointer;"></i>
+                    <table class="table table-responsive" id="course-table">
+                        <thead>
+                            <th>Course Code</th>
+                            <th colspan="2">Course Desc</th>
+                            <th colspan="2">Semester / Year </th>
+                            <th colspan="3">ACTIONS</th>
+                        </thead>
+                        <tbody>
+                            {% for course in courses %}
+
+                            <tr>
+                                <td>{{ course.course_code }}</td>
+                                <td colspan="2">{{ course.course_desc }}</td>
+                                <td colspan="2">{{ course.Sem }} {{ course.Academic_year }}</td>
+                                <td colspan="3" class="text-start">
+                                    <button class="btn text-success"> <i class="fa fa-eye"></i></button>
+                                    <button class="btn btn-light text-success"><a href="" class=""><i class="fa fa-sm fa-pencil"></i></a></button>
+                                    <button class="btn text-danger"> <i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                
+                 {% else %}
+                  <div class="alert alert-success m-2 p-1">
+                    <p class="text-center">No courses for  available </p>
+                  </div>
+                {% endif %}
+                <div class="d-flex justify-content-center">
+                    <div class="col-6">
+                        {% if success %}
+                        <div class="alert alert-success">
+                            New Course Added Successfully
+                        </div>
+                        {% endif %}
+                   
+                </div>
+                </div>
+                </div>
+
+                <div class="card-body"></div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "students/base.html" %}
+
+{% block body %}
+
+<div class="container-fluid m-4">
+
+    <h3 class="text-center"> </h3>
+  {% if success %}
+   <div class="alert alert-success d-flex justify-content-around" role="alert">
+     <p>Student Updated Successfully</p>
+     <a href="{% url 'view_students' %}" class="nav-link btn btn-info">All Students</a>
+   </div>
+
+  {% endif %}
+  {% if form %}
+
+  <div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="card-title">Edit Student</h4>
+            </div>
+            <div class="card-body">
+              
+                    <form action="" method="post" enctype="multipart/form-data">
+                       
+                        {% csrf_token %}
+                        <div class="text-center">
+
+                        <img src="{{ url }}" class="profile_image" alt="No photo">
+                    </div>
+                        {{ form.as_p }}
+                        <button class="btn btn-success">Update</button>
+
+                        <a class="btn btn-danger" href="{% url 'view_students' %}">Cancel</a>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

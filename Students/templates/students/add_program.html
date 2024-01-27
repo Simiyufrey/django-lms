@@ -1,0 +1,57 @@
+{% extends "students/base.html" %}
+
+{% block body %}
+
+ <div class="container-fluid">
+   <div class="row">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-title"><a class="nav-link" href="{% url 'programs' %}"><i class="fa fa-list"></i> Programmes</a></div>
+
+            <div>
+            </div>
+        </div>
+        
+        <div class="card-body">
+
+
+            {% if success %}
+            <div class="alert alert-success">
+               {{ message }}
+            </div>
+
+            {% else %}
+
+            <div class="row justify-content-center">
+                <div class="col-5">
+                  
+                    <form action="{% url 'addprogram' %}" class="p-2 rounded border min-w-100" method="post">
+                      <div class="card-header my-3 text-center ">
+                        <div class="crad-title w-100">Add New Program</div>
+                      </div>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+
+                        <input type="submit" class="btn btn-success" name="Add">
+                      </form>
+                </div>
+              </div>
+          
+
+            {% endif %}
+
+           
+        </div>
+    </div>
+   </div>
+
+ </div>
+
+
+ 
+ </div>
+ 
+
+</div>
+
+{% endblock %}

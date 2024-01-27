@@ -1,0 +1,48 @@
+{% extends "students/base.html" %}
+
+{% block body %}
+
+<div class="container-fluid m-4">
+
+    <h3 class="text-center">Add Course</h3>
+  {% if success %}
+   <div class="alert alert-success" role="alert">
+    Course added successfully
+        <a href="/" class="nav-link">Go back home</a>
+    
+    
+
+   </div>
+
+  {% else %}
+  {% if form %}
+
+  <div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Add New Course</h4>
+            </div>
+            <div class="card-body">
+              
+                    <form action="{% url 'add_course' %}" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-success">Add</button>
+
+                        <a class="btn btn-danger" href="{% url 'index' %}">Cancel</a>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+  </div>
+
+  {% endif %}
+
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

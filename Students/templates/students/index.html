@@ -1,0 +1,52 @@
+
+{%  extends "students/base.html" %}
+
+{% block body %}
+
+ <div class="container-fluid m-2">
+    <div class="bg-light rounded text-center p-2 mb-3 " style="box-sizing: border-box; box-shadow: inset -1px -1px 3px 0 lightgray;">
+        <p class="display-6">Details</p>
+    </div>
+
+    <div class="row">
+
+        {% if details  %} 
+     
+        {% for det in details %}
+         
+        <div class="col col-3">
+            <div class="card-body text-center border rounded m-2" style='background-color:{{ det.color }}'>
+               <div class="card-title">{{ det.name }}</div>
+               <p class="card-text">{{ det.count}} </p>
+            </div>
+            
+          </div>
+        {% endfor %}
+        {% endif %}
+        
+        
+         
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-5 mx-3">
+            <canvas id="pie-details" height="450px"  class="bg-light border rounded" width="500px">
+
+            </canvas>
+
+        </div>
+
+        <div class="col-5 mx-3">
+            <canvas id="bar-graph" height="450px"  class="bg-light" width="500px">
+
+            </canvas>
+
+        </div>
+    </div>
+  
+
+ </div>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+ 
+ {% endblock %}

@@ -1,0 +1,147 @@
+{% extends "students/base.html"%}
+
+{% block body %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col.md-10">
+            <div class="rounded d-flex mt-3 p-2 justify-content-end" style="background-color: white; box-shadow: 1-px -1px 3px 0 gray;">
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modaladdstaff" style="float: right;">Add Staff</button>
+
+                <div class="modal" role="document" id="modaladdstaff" aria-hidden="false">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content"  style="width:700px;">
+                            <div class="modal-header text-center">
+                                <h3 class="modal-title  w-100">Add New Staff/Lecture</h3>
+                            </div>
+
+                            <div class="modal-body">
+                              
+                                <form action="{% url 'staffs' %}" class="border rounded p-2  m-2" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+
+                                    <button class="btn btn-success m-4">Add </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {% if success %}
+            <div class="alert alert-success  text-center mt-4">
+                {{ message }}
+            </div>
+            {% endif %}
+
+            <div class="card-header">
+               <h4 class="card-title">All Lecturers</h4>
+            </div>
+
+            <div class="card-body">
+
+                {% if lecturer %}
+      
+                <table class="table table-responsive">
+      
+                  <thead>
+                    <th>Lecturer No</th>
+                    <th>surname </th>
+                    <th>othernames </th>
+                    <th>Mobile </th>
+                    <th>Actions</th>
+                  </thead>
+      
+                  <tbody>
+                    {% for lec in lecturer %}
+      
+                    <tr>
+                      <td>{{ lec.lecturer_no}}</td>
+                      <td>{{ lec.surname}}</td>
+                      <td>{{ lec.othernames}}</td>
+                      <td>{{ lec.phone_number}}</td>
+                      <td class="">
+                        <button  class="btn btn-info ms-3" data-bs-target="#modal{{ lec.pk }}" data-bs-toggle="modal">View</button>
+                          <i class="fa fa-eye fa-lg"></i>
+                          <div class="modal" role="dialog" aria-hidden="true" id="modal{{ lec.pk }}">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">{{ lec.surname }}</h5>
+                                  <button class="btn-close" role="button" data-bs-dismiss="modal">
+                                    <span aria-hidden="true"></span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="card-text border rounded d-flex flex-column justify-content-center">
+                                    <div class="text-center p-3">
+                                    
+                                    <img src="{{lec.image.url }}" class="profile_image border" alt="" srcset="">
+                                  </div>
+                                  <table class="table table-responsive">
+                                    <tbody>
+                                      <tr> <th>Lecturer No</th>
+                                           <td>{{ lec.lecturer_no }}</td>
+                                    </tr>
+
+                                      <tr> <th>Full names</th>
+                                          <td>{{ lec.surname }}  {{ lec.othernames}}</td>
+                                      </tr>
+                                      <tr> <th>Gender</th>
+                                        <td>{{ lec.gender }}</td>
+                                 </tr>
+                                        <tr> <th>Mobile</th>
+                                          <td> <a href="tel:254{{lec.phone_number}}" class="nav-link"> <i class="fa fa-call"></i>{{ lec.phone_number }}</a></td>
+                                              </tr>
+                                        <tr> <th>Email</th>
+                                          <td>{{ lec.email }}</td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+                         </div>
+ 
+                        <a href="{% url 'edit_staff' lec.pk %}" class="btn btn-warning ms-3">
+                          <i class="fa fa-pencil fa-lg"></i>EDIT
+
+                        </a>
+                        <a href="" class="btn btn-danger ms-3">
+                          <i class="fa fa-trash fa-lg"></i>
+                        </a>
+                       
+                      </td>
+                    </tr>
+                    
+         
+      
+                    {% endfor %}
+                  </tbody>
+                  
+      
+                </table>
+      
+                {% else %}
+      
+                <div class="alert alert-success" role="alert">
+                    <p class="alert-text">No Lecturers available</p>
+      
+                </div>
+      
+                {% endif %}
+              </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

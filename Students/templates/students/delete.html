@@ -1,0 +1,22 @@
+{% extends "students/base.html" %}
+
+{% block body %}
+
+<div class="container-fluid m-4 text-center">
+    <div class="row">
+        <div class="col-6">
+
+            {% if success %}
+                <div class="alert alert-success">
+                    Course deleted
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+ 
+
+</div>
+
+{% endblock %}

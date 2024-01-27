@@ -1,0 +1,85 @@
+{% extends "students/base.html" %}
+
+{% block body %}
+
+ <div class="container-fluid">
+   <div class="row">
+    <div class="row align-items-center" style="height: 60px; box-shadow:  2px -2px 3px white">
+      <div class="flex-2 col-8 col  me-4">
+        <form action="" class="form">
+          <div class="d-flex">
+            <input type="text" id="search" name="search" placeholder="Search" class="form-control m-2">
+            <select name="" class="form-select" id="course-query">
+                <option disabled >Select Program</option>
+                <option class="form-option" value="All">All Programs</option>
+               
+                {% for prog in programs %}
+                <option class="form-option" value={{prog.prog_code}}>{{ prog.prog_name }}</option>
+                {% endfor %}
+            </select>
+          
+        </div>
+        </form>
+      </div>
+      <div class="rounded btn btn-success border col-2 md-col-3 ms-4 com-sm-4 "><a href="{% url 'addprogram' %}" class="nav-link text-center text-dark">
+        <i class="fa fa-add"></i>
+       Add Program</a></div>
+      </div>
+  </div>
+    <div class="card m-2">
+       
+        <div class="card-body">
+          {% if programs %}
+          <table class="table table-responsive">
+            <thead>
+              <th>Programme Code</th>
+              <th>Programme Name</th>
+              <th>Actions</th>
+              <th>Courses</th>
+            </thead>
+
+            <tbody class="shadow shadow-sm rounded">
+              {% for program in programs %}
+              <tr>
+                <td>{{ program.prog_code}}</td>
+                <td>{{ program.prog_name}}</td>
+                <td class="">
+                  <a href="" class="btn text-success p-0 ms-3">
+                    <i class="fa fa-eye fa-sm"></i>
+                  </a>
+                  <button class="btn btn-light text-success p-0 mx-2"> <a href="" class=""><i class="fa fa-sm fa-pencil"></i></a>  </button>
+              
+                  <a href="" class="btn text-danger ms-2 p-0">
+                    <i class="fa fa-trash fa-sm"></i>
+                  </a>
+                 
+                </td>
+                  <td><a href="{% url 'view_courses' program.pk %}" class="nav-link text-dark btn btn-info  p-1 m-1">Courses</a></td>
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+            
+
+          </table>
+
+          {% else %}
+
+          <div class="alert alert-success" role="alert">
+              <p class="alert-text">No Programmes available</p>
+
+          </div>
+
+          {% endif %}
+        </div>
+    </div>
+   </div>
+
+ </div>
+
+
+ 
+
+</div>
+
+{% endblock %}
