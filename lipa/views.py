@@ -12,6 +12,8 @@ from django_daraja.mpesa.core import MpesaClient
 from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import datetime, timedelta
 from datetime import time
+from django.conf import settings
+import base64
 import requests
 
 # @ensure_csrf_cookie
@@ -29,26 +31,65 @@ def success(request):
 @requires_csrf_token
 def payment(request):
     if request.method =="POST":
-        cl = MpesaClient()
+        # cl = MpesaClient()
         form=request.POST
         phone_number = form['phone']
         amount = int(form['amount'])
         account_reference = 'Godfrey Wayne'
         transaction_desc = 'CustomerBaybillOnline'
-        callback_url = ' https://28f9-41-90-182-96.ngrok-free.app/payment/success'
-        response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+        callback_url = 'https://28f9-41-90-182-96.ngrok-free.app/payment/success'
         
-        response=response.json()
+        access_token=accessToken()
+        response = stk_push(phone_number, amount,access_token)
+        print(response)
+        print(response)
         return HttpResponse({"success":True,"resposnse":response})
     else: 
        
         return render(request,"lipa/payment.html")
-def getAccessToken():
-    try:
-        pass
-        
-    except Exception as e:
-        pass
+    
+def generateTimestamp():
+    timestamp=datetime.strftime(datetime.now(),"%Y%m%d%H%M%S")
+    return timestamp
+
+
+def accessToken():
+    auth=base64.b64encode(str(settings.CONSUMER_KEY+":"+settings.CONSUMER_SECRET).encode())
+    headers={
+        "Authorization":"Basic "+auth.decode(),
+        "Content-Type":"application/json; charset=utf-8"
+    }
+
+    req=requests.get(settings.ACCESS_URL,headers=headers)
+    
+    return req.json()['access_token']
+
+
+def stk_push(amount,phone,token):
+        print(settings.MPESA_SHORTCODE)
+
+        payload= {
+    
+            "Password": base64.b64encode(str(settings.MPESA_SHORTCODE+settings.MPESA_PASSKEY+generateTimestamp()).encode()).decode(),
+            "Timestamp": generateTimestamp(),
+            "BusinessShortCode":settings.MPESA_SHORTCODE,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": amount,
+            "PartyA": phone,
+            "PartyB": settings.MPESA_SHORTCODE,
+            "PhoneNumber": phone,
+            "CallBackURL": "https://0ca0-154-122-7-250.ngrok-free.app/payment/success",
+            "AccountReference": "GMD HOTEL",
+            "TransactionDesc": "Taxayo"
+        }
+
+        print(payload['BusinessShortCode']," received")
+        headers={
+            "Authorization":f"Bearer {token}"
+        }
+
+        req=requests.post(settings.STK_URL,headers=headers,data=json.dumps(payload))
+        return req.json()
 
 def save_data(body):
       

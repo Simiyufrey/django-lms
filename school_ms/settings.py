@@ -107,13 +107,13 @@ USE_TZ = True
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8171-41-90-65-182.ngrok-free.app',
-    'https://28f9-41-90-182-96.ngrok-free.app/',
+    'https://bc55-154-122-7-250.ngrok-free.app'
 ]
 
 ALLOWED_HOSTS=[
     '127.0.0.1',
     '28f9-41-90-182-96.ngrok-free.app',
+    'bc55-154-122-7-250.ngrok-free.app',
 ]
 
 # Static files (CSS, JavaScript, Images)
@@ -129,14 +129,16 @@ MEDIA_ROOT=BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 MPESA_ENVIRONMENT = 'sandbox'
-MPESA_CONSUMER_KEY="lkSwu6RLLeR26PSKNwWqdvGi5eWXbulx"
-MPESA_CONSUMER_SECRET="46Es8KmkivMSCz8b"
-MPESA_SHORTCODE = '174379'
+CONSUMER_SECRET="2sIGjxAvRtABj971f61sXFcKQWRsAGZEQhyXrCF3fU12d8in7lieiLYiXeGPc84C"
+CONSUMER_KEY="Tl9F92GZNGsAn3qDe1JLhluftfshO9bD5A3GnloGx2XT2BxO"
+
+MPESA_SHORTCODE = '600000'
 MPESA_EXPRESS_SHORTCODE = '174379'
 MPESA_SHORTCODE_TYPE = 'paybill'
 MPESA_INITIATOR_USERNAME = 'Godfreys store'
 MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
 MPESA_INITIATOR_SECURITY_CREDENTIAL = 'Safaricom999!*!'
-ACCESS_URL=""
+
+ACCESS_URL="https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+STK_URL="https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
